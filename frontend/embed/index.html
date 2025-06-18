@@ -334,12 +334,11 @@
 
         async function changeDirection(direction) {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/game/direction`, {
+                const response = await fetch(`${API_BASE_URL}/api/game/direction/${direction}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ direction })
+                    }
                 });
             } catch (error) {
                 console.error('Error changing direction:', error);
