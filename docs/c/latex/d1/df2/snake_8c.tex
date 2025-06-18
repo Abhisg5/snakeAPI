@@ -1,0 +1,540 @@
+\doxysection{core/snake.c File Reference}
+\hypertarget{snake_8c}{}\label{snake_8c}\index{core/snake.c@{core/snake.c}}
+{\ttfamily \#include "{}snake.\+h"{}}\newline
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$time.\+h$>$}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{snake_8c_a804eeb9892adae7306540eb33f2326eb}{GRID\+\_\+\+WIDTH}}~20
+\item 
+\#define \mbox{\hyperlink{snake_8c_a8bd9f95c4e7d0ae683aaa0434a72dca9}{GRID\+\_\+\+HEIGHT}}~20
+\item 
+\#define \mbox{\hyperlink{snake_8c_afd7987666402798824ebc784d17a9928}{DEBUG\+\_\+\+LOG}}(fmt, ...)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{snake_8c_a244ade33757168c7b08b92f139a43d09}{place\+\_\+food}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static bool \mbox{\hyperlink{snake_8c_a56f9fcdef7f382706fc8b0ff53ceb7b1}{check\+\_\+collision}} (const \mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, int x, int y)
+\item 
+static \mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{snake_8c_ac6f412a1b38be9f499df79c30ce9e230}{create\+\_\+game\+\_\+internal}} (void)
+\item 
+static void \mbox{\hyperlink{snake_8c_af4046d2177dc0d8d24307f090c1ceeb2}{free\+\_\+game\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static bool \mbox{\hyperlink{snake_8c_aa7d3cbd458444df50e6808827603dae6}{move\+\_\+snake\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static void \mbox{\hyperlink{snake_8c_ae8469ed7e43c15346395dccf204b6f0c}{change\+\_\+direction\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} new\+\_\+direction)
+\item 
+static bool \mbox{\hyperlink{snake_8c_aab2d7c1641ff1b97149705ad026ea1aa}{is\+\_\+game\+\_\+over\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static int \mbox{\hyperlink{snake_8c_aa0c10f787552a9202173e3852519743c}{get\+\_\+score\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static int \mbox{\hyperlink{snake_8c_a73a752a96e00ee683e116ddab407af11}{get\+\_\+snake\+\_\+length\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static void \mbox{\hyperlink{snake_8c_af991edd163193e8253f27946a39e6075}{get\+\_\+snake\+\_\+positions\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}positions)
+\item 
+static void \mbox{\hyperlink{snake_8c_a6d7759979d6fd5c421d88222634bb8dd}{get\+\_\+food\+\_\+position\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}position)
+\item 
+static \mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \mbox{\hyperlink{snake_8c_a96ac0722ae6ec09bf7f9fd6675938b0b}{get\+\_\+snake\+\_\+direction\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+static void \mbox{\hyperlink{snake_8c_a70ea4cbaef28e6e9849272526106bc35}{get\+\_\+game\+\_\+state\+\_\+internal}} (\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, int \texorpdfstring{$\ast$}{*}snake\+\_\+positions, int \texorpdfstring{$\ast$}{*}snake\+\_\+length, int \texorpdfstring{$\ast$}{*}food\+\_\+position, int \texorpdfstring{$\ast$}{*}score, int \texorpdfstring{$\ast$}{*}direction, bool \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{snake_8c_a8e9db6bf4b20d202f48f030234602876}{is\+\_\+game\+\_\+over}})
+\item 
+void \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{snake_8c_ad22d6f38d510c09f23c5842f452089f0}{create\+\_\+game}} (void)
+\item 
+\mbox{\hyperlink{snake_8c_a7c5499cd9e3ad92c703f0109b30aea73}{\+\_\+\+\_\+attribute\+\_\+\+\_\+}} ((visibility("{}default"{})))
+\item 
+bool \mbox{\hyperlink{snake_8c_a90b7f7ef85ab1ea4e90b35cb033099d7}{move\+\_\+snake}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+void \mbox{\hyperlink{snake_8c_a9bc478e3fbcaabad4a43b458e7ec39c7}{change\+\_\+direction}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} new\+\_\+direction)
+\item 
+bool \mbox{\hyperlink{snake_8c_a8e9db6bf4b20d202f48f030234602876}{is\+\_\+game\+\_\+over}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+int \mbox{\hyperlink{snake_8c_ae0ac09c279a3c65a859c374c52ee8abe}{get\+\_\+score}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+int \mbox{\hyperlink{snake_8c_aca8a60ad93433ce75fe0dd0b4b57c4fc}{get\+\_\+snake\+\_\+length}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\item 
+void \mbox{\hyperlink{snake_8c_abc05216aa168501cebcbcad5b5b4e0e8}{get\+\_\+snake\+\_\+positions}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}positions)
+\item 
+void \mbox{\hyperlink{snake_8c_a588573f5c36451004ba4e5867dd2be48}{get\+\_\+food\+\_\+position}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, \mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}position)
+\item 
+void \mbox{\hyperlink{snake_8c_a2c4020cf2eede86bd13c87a3961066dc}{set\+\_\+food\+\_\+position}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}}, int x, int y)
+\item 
+\mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} \mbox{\hyperlink{snake_8c_a65db2053c486547766416dd3898d5465}{get\+\_\+snake\+\_\+direction}} (void \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{test__snake_8c_a58bdb5643d0814ac4e697a1564b79b70}{game}})
+\end{DoxyCompactItemize}
+
+
+\label{doc-define-members}
+\Hypertarget{snake_8c_doc-define-members}
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{snake_8c_afd7987666402798824ebc784d17a9928}\index{snake.c@{snake.c}!DEBUG\_LOG@{DEBUG\_LOG}}
+\index{DEBUG\_LOG@{DEBUG\_LOG}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{DEBUG\_LOG}{DEBUG\_LOG}}
+{\footnotesize\ttfamily \label{snake_8c_afd7987666402798824ebc784d17a9928} 
+\#define DEBUG\+\_\+\+LOG(\begin{DoxyParamCaption}\item[{}]{fmt}{, }\item[{}]{}...{}\end{DoxyParamCaption})}
+
+{\bfseries Value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{printf(\textcolor{stringliteral}{"{}[DEBUG]\ "{}}\ fmt\ \textcolor{stringliteral}{"{}\(\backslash\)n"{}},\ \#\#\_\_VA\_ARGS\_\_)}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00011}{11}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00163}{change\+\_\+direction\+\_\+internal()}}, \mbox{\hyperlink{snake_8c_source_l00032}{check\+\_\+collision()}}, \mbox{\hyperlink{snake_8c_source_l00050}{create\+\_\+game\+\_\+internal()}}, \mbox{\hyperlink{snake_8c_source_l00087}{move\+\_\+snake\+\_\+internal()}}, and \mbox{\hyperlink{snake_8c_source_l00013}{place\+\_\+food()}}.
+
+\Hypertarget{snake_8c_a8bd9f95c4e7d0ae683aaa0434a72dca9}\index{snake.c@{snake.c}!GRID\_HEIGHT@{GRID\_HEIGHT}}
+\index{GRID\_HEIGHT@{GRID\_HEIGHT}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{GRID\_HEIGHT}{GRID\_HEIGHT}}
+{\footnotesize\ttfamily \label{snake_8c_a8bd9f95c4e7d0ae683aaa0434a72dca9} 
+\#define GRID\+\_\+\+HEIGHT~20}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00008}{8}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00032}{check\+\_\+collision()}}, \mbox{\hyperlink{snake_8c_source_l00050}{create\+\_\+game\+\_\+internal()}}, \mbox{\hyperlink{snake_8c_source_l00013}{place\+\_\+food()}}, and \mbox{\hyperlink{test__snake_8c_source_l00094}{test\+\_\+boundaries()}}.
+
+\Hypertarget{snake_8c_a804eeb9892adae7306540eb33f2326eb}\index{snake.c@{snake.c}!GRID\_WIDTH@{GRID\_WIDTH}}
+\index{GRID\_WIDTH@{GRID\_WIDTH}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{GRID\_WIDTH}{GRID\_WIDTH}}
+{\footnotesize\ttfamily \label{snake_8c_a804eeb9892adae7306540eb33f2326eb} 
+\#define GRID\+\_\+\+WIDTH~20}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00007}{7}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00032}{check\+\_\+collision()}}, \mbox{\hyperlink{snake_8c_source_l00050}{create\+\_\+game\+\_\+internal()}}, \mbox{\hyperlink{snake_8c_source_l00013}{place\+\_\+food()}}, and \mbox{\hyperlink{test__snake_8c_source_l00094}{test\+\_\+boundaries()}}.
+
+
+
+\label{doc-func-members}
+\Hypertarget{snake_8c_doc-func-members}
+\doxysubsection{Function Documentation}
+\Hypertarget{snake_8c_a7c5499cd9e3ad92c703f0109b30aea73}\index{snake.c@{snake.c}!\_\_attribute\_\_@{\_\_attribute\_\_}}
+\index{\_\_attribute\_\_@{\_\_attribute\_\_}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{\_\_attribute\_\_()}{\_\_attribute\_\_()}}
+{\footnotesize\ttfamily \label{snake_8c_a7c5499cd9e3ad92c703f0109b30aea73} 
+\+\_\+\+\_\+attribute\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{(visibility("{}default"{}))}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00238}{238}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8h_a18484a1282acf137e0e2afc2e54061c7}{destroy\+\_\+game()}}, \mbox{\hyperlink{snake_8c_source_l00080}{free\+\_\+game\+\_\+internal()}}, and \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+\Hypertarget{snake_8c_a9bc478e3fbcaabad4a43b458e7ec39c7}\index{snake.c@{snake.c}!change\_direction@{change\_direction}}
+\index{change\_direction@{change\_direction}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{change\_direction()}{change\_direction()}}
+{\footnotesize\ttfamily \label{snake_8c_a9bc478e3fbcaabad4a43b458e7ec39c7} 
+void change\+\_\+direction (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}}]{new\+\_\+direction}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00244}{244}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00163}{change\+\_\+direction\+\_\+internal()}}, and \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00038}{test\+\_\+direction\+\_\+change()}}.
+
+\Hypertarget{snake_8c_ae8469ed7e43c15346395dccf204b6f0c}\index{snake.c@{snake.c}!change\_direction\_internal@{change\_direction\_internal}}
+\index{change\_direction\_internal@{change\_direction\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{change\_direction\_internal()}{change\_direction\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_ae8469ed7e43c15346395dccf204b6f0c} 
+void change\+\_\+direction\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}}}]{new\+\_\+direction}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00163}{163}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00011}{DEBUG\+\_\+\+LOG}}, \mbox{\hyperlink{snake_8h_source_l00017}{DOWN}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8h_source_l00017}{LEFT}}, \mbox{\hyperlink{snake_8h_source_l00017}{RIGHT}}, and \mbox{\hyperlink{snake_8h_source_l00017}{UP}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00244}{change\+\_\+direction()}}.
+
+\Hypertarget{snake_8c_a56f9fcdef7f382706fc8b0ff53ceb7b1}\index{snake.c@{snake.c}!check\_collision@{check\_collision}}
+\index{check\_collision@{check\_collision}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{check\_collision()}{check\_collision()}}
+{\footnotesize\ttfamily \label{snake_8c_a56f9fcdef7f382706fc8b0ff53ceb7b1} 
+bool check\+\_\+collision (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00032}{32}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00011}{DEBUG\+\_\+\+LOG}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8c_source_l00008}{GRID\+\_\+\+HEIGHT}}, and \mbox{\hyperlink{snake_8c_source_l00007}{GRID\+\_\+\+WIDTH}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00087}{move\+\_\+snake\+\_\+internal()}}.
+
+\Hypertarget{snake_8c_ad22d6f38d510c09f23c5842f452089f0}\index{snake.c@{snake.c}!create\_game@{create\_game}}
+\index{create\_game@{create\_game}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{create\_game()}{create\_game()}}
+{\footnotesize\ttfamily \label{snake_8c_ad22d6f38d510c09f23c5842f452089f0} 
+void \texorpdfstring{$\ast$}{*} create\+\_\+game (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00236}{236}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00050}{create\+\_\+game\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00009}{init\+\_\+suite()}}.
+
+\Hypertarget{snake_8c_ac6f412a1b38be9f499df79c30ce9e230}\index{snake.c@{snake.c}!create\_game\_internal@{create\_game\_internal}}
+\index{create\_game\_internal@{create\_game\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{create\_game\_internal()}{create\_game\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_ac6f412a1b38be9f499df79c30ce9e230} 
+\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*} create\+\_\+game\+\_\+internal (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00050}{50}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00011}{DEBUG\+\_\+\+LOG}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8c_source_l00008}{GRID\+\_\+\+HEIGHT}}, \mbox{\hyperlink{snake_8c_source_l00007}{GRID\+\_\+\+WIDTH}}, \mbox{\hyperlink{snake_8c_source_l00013}{place\+\_\+food()}}, and \mbox{\hyperlink{snake_8h_source_l00017}{RIGHT}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00236}{create\+\_\+game()}}.
+
+\Hypertarget{snake_8c_af4046d2177dc0d8d24307f090c1ceeb2}\index{snake.c@{snake.c}!free\_game\_internal@{free\_game\_internal}}
+\index{free\_game\_internal@{free\_game\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{free\_game\_internal()}{free\_game\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_af4046d2177dc0d8d24307f090c1ceeb2} 
+void free\+\_\+game\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00080}{80}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00238}{\+\_\+\+\_\+attribute\+\_\+\+\_\+()}}.
+
+\Hypertarget{snake_8c_a588573f5c36451004ba4e5867dd2be48}\index{snake.c@{snake.c}!get\_food\_position@{get\_food\_position}}
+\index{get\_food\_position@{get\_food\_position}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_food\_position()}{get\_food\_position()}}
+{\footnotesize\ttfamily \label{snake_8c_a588573f5c36451004ba4e5867dd2be48} 
+void get\+\_\+food\+\_\+position (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}}]{position}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00260}{260}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00200}{get\+\_\+food\+\_\+position\+\_\+internal()}}.
+
+\Hypertarget{snake_8c_a6d7759979d6fd5c421d88222634bb8dd}\index{snake.c@{snake.c}!get\_food\_position\_internal@{get\_food\_position\_internal}}
+\index{get\_food\_position\_internal@{get\_food\_position\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_food\_position\_internal()}{get\_food\_position\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_a6d7759979d6fd5c421d88222634bb8dd} 
+void get\+\_\+food\+\_\+position\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}}]{position}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00200}{200}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00260}{get\+\_\+food\+\_\+position()}}.
+
+\Hypertarget{snake_8c_a70ea4cbaef28e6e9849272526106bc35}\index{snake.c@{snake.c}!get\_game\_state\_internal@{get\_game\_state\_internal}}
+\index{get\_game\_state\_internal@{get\_game\_state\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_game\_state\_internal()}{get\_game\_state\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_a70ea4cbaef28e6e9849272526106bc35} 
+void get\+\_\+game\+\_\+state\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{snake\+\_\+positions}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{snake\+\_\+length}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{food\+\_\+position}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{score}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{direction}{, }\item[{bool \texorpdfstring{$\ast$}{*}}]{is\+\_\+game\+\_\+over}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00211}{211}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00248}{is\+\_\+game\+\_\+over()}}.
+
+\Hypertarget{snake_8c_ae0ac09c279a3c65a859c374c52ee8abe}\index{snake.c@{snake.c}!get\_score@{get\_score}}
+\index{get\_score@{get\_score}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_score()}{get\_score()}}
+{\footnotesize\ttfamily \label{snake_8c_ae0ac09c279a3c65a859c374c52ee8abe} 
+int get\+\_\+score (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00250}{250}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00185}{get\+\_\+score\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00055}{test\+\_\+food\+\_\+collision()}}, and \mbox{\hyperlink{test__snake_8c_source_l00020}{test\+\_\+initial\+\_\+state()}}.
+
+\Hypertarget{snake_8c_aa0c10f787552a9202173e3852519743c}\index{snake.c@{snake.c}!get\_score\_internal@{get\_score\_internal}}
+\index{get\_score\_internal@{get\_score\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_score\_internal()}{get\_score\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_aa0c10f787552a9202173e3852519743c} 
+int get\+\_\+score\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00185}{185}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00250}{get\+\_\+score()}}.
+
+\Hypertarget{snake_8c_a65db2053c486547766416dd3898d5465}\index{snake.c@{snake.c}!get\_snake\_direction@{get\_snake\_direction}}
+\index{get\_snake\_direction@{get\_snake\_direction}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_direction()}{get\_snake\_direction()}}
+{\footnotesize\ttfamily \label{snake_8c_a65db2053c486547766416dd3898d5465} 
+\mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} get\+\_\+snake\+\_\+direction (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00287}{287}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00207}{get\+\_\+snake\+\_\+direction\+\_\+internal()}}.
+
+\Hypertarget{snake_8c_a96ac0722ae6ec09bf7f9fd6675938b0b}\index{snake.c@{snake.c}!get\_snake\_direction\_internal@{get\_snake\_direction\_internal}}
+\index{get\_snake\_direction\_internal@{get\_snake\_direction\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_direction\_internal()}{get\_snake\_direction\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_a96ac0722ae6ec09bf7f9fd6675938b0b} 
+\mbox{\hyperlink{snake_8h_a224b9163917ac32fc95a60d8c1eec3aa}{Direction}} get\+\_\+snake\+\_\+direction\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00207}{207}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8h_source_l00017}{RIGHT}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00287}{get\+\_\+snake\+\_\+direction()}}.
+
+\Hypertarget{snake_8c_aca8a60ad93433ce75fe0dd0b4b57c4fc}\index{snake.c@{snake.c}!get\_snake\_length@{get\_snake\_length}}
+\index{get\_snake\_length@{get\_snake\_length}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_length()}{get\_snake\_length()}}
+{\footnotesize\ttfamily \label{snake_8c_aca8a60ad93433ce75fe0dd0b4b57c4fc} 
+int get\+\_\+snake\+\_\+length (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00252}{252}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00187}{get\+\_\+snake\+\_\+length\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00055}{test\+\_\+food\+\_\+collision()}}, and \mbox{\hyperlink{test__snake_8c_source_l00020}{test\+\_\+initial\+\_\+state()}}.
+
+\Hypertarget{snake_8c_a73a752a96e00ee683e116ddab407af11}\index{snake.c@{snake.c}!get\_snake\_length\_internal@{get\_snake\_length\_internal}}
+\index{get\_snake\_length\_internal@{get\_snake\_length\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_length\_internal()}{get\_snake\_length\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_a73a752a96e00ee683e116ddab407af11} 
+int get\+\_\+snake\+\_\+length\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00187}{187}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00252}{get\+\_\+snake\+\_\+length()}}.
+
+\Hypertarget{snake_8c_abc05216aa168501cebcbcad5b5b4e0e8}\index{snake.c@{snake.c}!get\_snake\_positions@{get\_snake\_positions}}
+\index{get\_snake\_positions@{get\_snake\_positions}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_positions()}{get\_snake\_positions()}}
+{\footnotesize\ttfamily \label{snake_8c_abc05216aa168501cebcbcad5b5b4e0e8} 
+void get\+\_\+snake\+\_\+positions (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}}]{positions}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00256}{256}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00191}{get\+\_\+snake\+\_\+positions\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00094}{test\+\_\+boundaries()}}, \mbox{\hyperlink{test__snake_8c_source_l00038}{test\+\_\+direction\+\_\+change()}}, \mbox{\hyperlink{test__snake_8c_source_l00055}{test\+\_\+food\+\_\+collision()}}, and \mbox{\hyperlink{test__snake_8c_source_l00026}{test\+\_\+movement()}}.
+
+\Hypertarget{snake_8c_af991edd163193e8253f27946a39e6075}\index{snake.c@{snake.c}!get\_snake\_positions\_internal@{get\_snake\_positions\_internal}}
+\index{get\_snake\_positions\_internal@{get\_snake\_positions\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{get\_snake\_positions\_internal()}{get\_snake\_positions\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_af991edd163193e8253f27946a39e6075} 
+void get\+\_\+snake\+\_\+positions\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{\mbox{\hyperlink{structPosition}{Position}} \texorpdfstring{$\ast$}{*}}]{positions}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00191}{191}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00256}{get\+\_\+snake\+\_\+positions()}}.
+
+\Hypertarget{snake_8c_a8e9db6bf4b20d202f48f030234602876}\index{snake.c@{snake.c}!is\_game\_over@{is\_game\_over}}
+\index{is\_game\_over@{is\_game\_over}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{is\_game\_over()}{is\_game\_over()}}
+{\footnotesize\ttfamily \label{snake_8c_a8e9db6bf4b20d202f48f030234602876} 
+bool is\+\_\+game\+\_\+over (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00248}{248}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00181}{is\+\_\+game\+\_\+over\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00211}{get\+\_\+game\+\_\+state\+\_\+internal()}}, \mbox{\hyperlink{test__snake_8c_source_l00094}{test\+\_\+boundaries()}}, \mbox{\hyperlink{test__snake_8c_source_l00085}{test\+\_\+game\+\_\+over()}}, and \mbox{\hyperlink{test__snake_8c_source_l00020}{test\+\_\+initial\+\_\+state()}}.
+
+\Hypertarget{snake_8c_aab2d7c1641ff1b97149705ad026ea1aa}\index{snake.c@{snake.c}!is\_game\_over\_internal@{is\_game\_over\_internal}}
+\index{is\_game\_over\_internal@{is\_game\_over\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{is\_game\_over\_internal()}{is\_game\_over\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_aab2d7c1641ff1b97149705ad026ea1aa} 
+bool is\+\_\+game\+\_\+over\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00181}{181}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00248}{is\+\_\+game\+\_\+over()}}.
+
+\Hypertarget{snake_8c_a90b7f7ef85ab1ea4e90b35cb033099d7}\index{snake.c@{snake.c}!move\_snake@{move\_snake}}
+\index{move\_snake@{move\_snake}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{move\_snake()}{move\_snake()}}
+{\footnotesize\ttfamily \label{snake_8c_a90b7f7ef85ab1ea4e90b35cb033099d7} 
+bool move\+\_\+snake (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00242}{242}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, and \mbox{\hyperlink{snake_8c_source_l00087}{move\+\_\+snake\+\_\+internal()}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00094}{test\+\_\+boundaries()}}, \mbox{\hyperlink{test__snake_8c_source_l00038}{test\+\_\+direction\+\_\+change()}}, \mbox{\hyperlink{test__snake_8c_source_l00055}{test\+\_\+food\+\_\+collision()}}, \mbox{\hyperlink{test__snake_8c_source_l00085}{test\+\_\+game\+\_\+over()}}, and \mbox{\hyperlink{test__snake_8c_source_l00026}{test\+\_\+movement()}}.
+
+\Hypertarget{snake_8c_aa7d3cbd458444df50e6808827603dae6}\index{snake.c@{snake.c}!move\_snake\_internal@{move\_snake\_internal}}
+\index{move\_snake\_internal@{move\_snake\_internal}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{move\_snake\_internal()}{move\_snake\_internal()}}
+{\footnotesize\ttfamily \label{snake_8c_aa7d3cbd458444df50e6808827603dae6} 
+bool move\+\_\+snake\+\_\+internal (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00087}{87}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00032}{check\+\_\+collision()}}, \mbox{\hyperlink{snake_8c_source_l00011}{DEBUG\+\_\+\+LOG}}, \mbox{\hyperlink{snake_8h_source_l00017}{DOWN}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8h_source_l00017}{LEFT}}, \mbox{\hyperlink{snake_8c_source_l00013}{place\+\_\+food()}}, \mbox{\hyperlink{snake_8h_source_l00017}{RIGHT}}, \mbox{\hyperlink{snake_8h_source_l00017}{UP}}, \mbox{\hyperlink{snake_8h_source_l00013}{Position\+::x}}, and \mbox{\hyperlink{snake_8h_source_l00014}{Position\+::y}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00242}{move\+\_\+snake()}}.
+
+\Hypertarget{snake_8c_a244ade33757168c7b08b92f139a43d09}\index{snake.c@{snake.c}!place\_food@{place\_food}}
+\index{place\_food@{place\_food}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{place\_food()}{place\_food()}}
+{\footnotesize\ttfamily \label{snake_8c_a244ade33757168c7b08b92f139a43d09} 
+void place\+\_\+food (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGame}{Game}} \texorpdfstring{$\ast$}{*}}]{game}{}\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00013}{13}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8c_source_l00011}{DEBUG\+\_\+\+LOG}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8c_source_l00008}{GRID\+\_\+\+HEIGHT}}, and \mbox{\hyperlink{snake_8c_source_l00007}{GRID\+\_\+\+WIDTH}}.
+
+
+
+Referenced by \mbox{\hyperlink{snake_8c_source_l00050}{create\+\_\+game\+\_\+internal()}}, and \mbox{\hyperlink{snake_8c_source_l00087}{move\+\_\+snake\+\_\+internal()}}.
+
+\Hypertarget{snake_8c_a2c4020cf2eede86bd13c87a3961066dc}\index{snake.c@{snake.c}!set\_food\_position@{set\_food\_position}}
+\index{set\_food\_position@{set\_food\_position}!snake.c@{snake.c}}
+\doxysubsubsection{\texorpdfstring{set\_food\_position()}{set\_food\_position()}}
+{\footnotesize\ttfamily \label{snake_8c_a2c4020cf2eede86bd13c87a3961066dc} 
+void set\+\_\+food\+\_\+position (\begin{DoxyParamCaption}\item[{void \texorpdfstring{$\ast$}{*}}]{game}{, }\item[{int}]{x}{, }\item[{int}]{y}{}\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{snake_8c_source_l00264}{264}} of file \mbox{\hyperlink{snake_8c_source}{snake.\+c}}.
+
+
+
+References \mbox{\hyperlink{snake_8h_source_l00024}{Game\+::food}}, \mbox{\hyperlink{test__snake_8c_source_l00006}{game}}, \mbox{\hyperlink{snake_8h_source_l00013}{Position\+::x}}, and \mbox{\hyperlink{snake_8h_source_l00014}{Position\+::y}}.
+
+
+
+Referenced by \mbox{\hyperlink{test__snake_8c_source_l00055}{test\+\_\+food\+\_\+collision()}}.
+

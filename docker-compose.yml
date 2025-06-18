@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./src:/app/src
+      - ./examples/web/app.py:/app/app.py
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+    networks:
+      - snake-network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./examples/web/templates:/app/templates
+      - ./examples/web/server.py:/app/server.py
+    environment:
+      - FLASK_APP=server.py
+      - FLASK_ENV=development
+    depends_on:
+      - api
+    networks:
+      - snake-network
+
+networks:
+  snake-network:
+    driver: bridge 
