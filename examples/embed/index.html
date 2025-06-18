@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game Embed Example</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --border-color: #ddd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-frame {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 5px;
+            background: white;
+        }
+
+        .sidebar {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .code-block {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: monospace;
+            margin: 10px 0;
+        }
+
+        .feature-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .feature-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .feature-list li:last-child {
+            border-bottom: none;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Snake Game Embed Example</h1>
+        </header>
+
+        <div class="content">
+            <div class="game-container">
+                <h2>Embedded Snake Game</h2>
+                <iframe 
+                    src="http://localhost:3000" 
+                    class="game-frame"
+                    title="Snake Game"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <div class="sidebar">
+                <h2>How to Embed</h2>
+                <p>To embed the Snake game in your website, use this iframe code:</p>
+                <div class="code-block">
+                    &lt;iframe 
+                        src="http://localhost:4000" 
+                        width="100%" 
+                        height="600" 
+                        frameborder="0"
+                        allowfullscreen&gt;
+                    &lt;/iframe&gt;
+                </div>
+
+                <h2>Features</h2>
+                <ul class="feature-list">
+                    <li>🎮 Full keyboard controls</li>
+                    <li>📱 Responsive design</li>
+                    <li>🎯 Score tracking</li>
+                    <li>🔄 Auto-reset on game over</li>
+                    <li>🎨 Modern UI</li>
+                </ul>
+
+                <h2>API Endpoints</h2>
+                <ul class="feature-list">
+                    <li>GET /api/game/state</li>
+                    <li>POST /api/game/move</li>
+                    <li>POST /api/game/direction</li>
+                    <li>POST /api/game/reset</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Prevent arrow keys from scrolling the page
+        window.addEventListener('keydown', function(e) {
+            if ([37, 38, 39, 40].includes(e.keyCode)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html> 
