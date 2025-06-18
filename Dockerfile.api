@@ -12,21 +12,21 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy source code
+# Copy source code and app
 COPY src/ src/
-COPY examples/web/app.py .
+COPY app.py .
+COPY Makefile .
 
 # Build the C library
-RUN mkdir -p build && \
-    gcc -shared -o build/libsnake.so -fPIC src/core/snake.c
+RUN make build
 
 # Set environment variables
 ENV PYTHONPATH=/app
 ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
+ENV FLASK_ENV=production
 
 # Expose port
 EXPOSE 4000
 
-# Run the application
-CMD ["python", "app.py"] 
+# Run the application with gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:4000", "app:app"] 
