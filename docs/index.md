@@ -75,22 +75,3 @@ A modern implementation of the classic Snake game with a C-based core and Python
    make test
    ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guide](contributing/development.md) for details.
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/yourusername/snakeAPI/blob/main/LICENSE) file for details.
-
-## 📫 Contact
-
-- GitHub Issues: [Create an issue](https://github.com/yourusername/snakeAPI/issues)
-- Email: your.email@example.com
-- Twitter: [@yourtwitter](https://twitter.com/yourtwitter)
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who have helped shape this project
-- Inspired by the classic Snake game
-- Built with modern web technologies 
