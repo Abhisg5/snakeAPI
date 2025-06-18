@@ -5,198 +5,358 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game Embed</title>
     <style>
-        .snake-game {
-            width: 400px;
-            height: 500px;
-            margin: 0 auto;
-            font-family: Arial, sans-serif;
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #45a049;
+            --background-color: #f0f0f0;
+            --text-color: #333;
+            --border-color: #ddd;
+            --game-over-color: #ff4444;
         }
-        .game-container {
-            position: relative;
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        canvas {
-            border: 2px solid #333;
-            background-color: #fff;
-        }
-        .score {
-            font-size: 20px;
-            margin: 10px 0;
+
+        #game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 500px;
+            width: 100%;
         }
-        .controls {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
+
+        #game-board {
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background-color: #fff;
             margin: 10px 0;
         }
-        button {
-            padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
+
+        #score {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        #controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .control-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: bold;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        button:hover {
-            background-color: #45a049;
+
+        #start-btn {
+            background-color: var(--primary-color);
+            color: white;
         }
-        .game-over {
-            position: absolute;
+
+        #start-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        #end-btn {
+            background-color: var(--game-over-color);
+            color: white;
+        }
+
+        #end-btn:hover {
+            background-color: #ff6666;
+            transform: translateY(-2px);
+        }
+
+        #game-over {
+            display: none;
+            position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: rgba(0, 0, 0, 0.8);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
-            border-radius: 8px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            display: none;
+            z-index: 1000;
+        }
+
+        #game-over h2 {
+            color: var(--game-over-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        #final-score {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        #restart-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #restart-btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .direction-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 10px auto;
+            max-width: 120px;
+        }
+
+        .direction-btn {
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .direction-btn:hover {
+            background-color: #d0d0d0;
+            transform: translateY(-2px);
+        }
+
+        .direction-btn:active {
+            transform: translateY(0);
+        }
+
+        .instructions {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="snake-game">
-        <div class="score">Score: 0</div>
-        <div class="game-container">
-            <canvas id="gameCanvas" width="400" height="400"></canvas>
-            <div class="game-over">
-                <h2>Game Over!</h2>
-                <p>Your score: <span class="final-score">0</span></p>
-                <button onclick="resetGame()">Play Again</button>
-            </div>
+    <div id="game-container">
+        <canvas id="game-board" width="300" height="300"></canvas>
+        <div id="score">Score: 0</div>
+        <div id="controls">
+            <button id="start-btn" class="control-btn" onclick="initGame()">Start Game</button>
+            <button id="end-btn" class="control-btn" onclick="cleanupGame()">End Game</button>
         </div>
-        <div class="controls">
-            <div></div>
-            <button onclick="changeDirection('up')">↑</button>
-            <div></div>
-            <button onclick="changeDirection('left')">←</button>
-            <button onclick="changeDirection('right')">→</button>
-            <div></div>
-            <button onclick="changeDirection('down')">↓</button>
+        <div class="direction-controls">
+            <button class="direction-btn" onclick="changeDirection('up')">↑</button>
+            <button class="direction-btn" onclick="changeDirection('left')">←</button>
+            <button class="direction-btn" onclick="changeDirection('right')">→</button>
+            <button class="direction-btn" onclick="changeDirection('down')">↓</button>
+        </div>
+        <div class="instructions">
+            Use arrow keys or buttons to control the snake. Collect food to grow and earn points!
         </div>
     </div>
 
+    <div id="game-over">
+        <h2>Game Over!</h2>
+        <div id="final-score">Score: 0</div>
+        <button id="restart-btn" onclick="initGame()">Play Again</button>
+    </div>
+
     <script>
-        // Configuration
-        const API_BASE_URL = process.env.API_URL || 'https://snake-game-api.onrender.com';
-        const GRID_SIZE = 20;
-        const CELL_SIZE = 20;
-        const GAME_SPEED = 200;
-
-        // Game state
-        let gameLoop;
-        let score = 0;
-        const canvas = document.getElementById('gameCanvas');
+        const canvas = document.getElementById('game-board');
         const ctx = canvas.getContext('2d');
+        const cellSize = 15;
+        const gridSize = canvas.width / cellSize;
+        let gameInterval;
+        let score = 0;
+        const API_BASE_URL = process.env.API_URL || 'http://localhost:4000';
 
-        // Initialize game
+        // Prevent arrow keys from scrolling the page
+        window.addEventListener('keydown', function(e) {
+            if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        });
+
         async function initGame() {
             try {
+                // Hide game over screen
+                document.getElementById('game-over').style.display = 'none';
+                
+                // Clear any existing game loop
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                }
+                
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Reset score
+                score = 0;
+                updateScore();
+                
+                // Call reset endpoint
                 const response = await fetch(`${API_BASE_URL}/api/game/reset`, {
                     method: 'POST'
                 });
-                if (!response.ok) throw new Error('Failed to reset game');
-                startGame();
+                
+                if (response.ok) {
+                    // Get initial state and draw it
+                    const state = await fetch(`${API_BASE_URL}/api/game/state`).then(r => r.json());
+                    drawGame(state);
+                    
+                    // Start new game loop
+                    gameInterval = setInterval(updateGame, 100);
+                } else {
+                    console.error('Failed to reset game:', await response.text());
+                }
             } catch (error) {
                 console.error('Error initializing game:', error);
             }
         }
 
-        // Start game loop
-        function startGame() {
-            if (gameLoop) clearInterval(gameLoop);
-            gameLoop = setInterval(updateGame, GAME_SPEED);
-            document.querySelector('.game-over').style.display = 'none';
-        }
-
-        // Update game state
         async function updateGame() {
             try {
-                // Move snake
-                const moveResponse = await fetch(`${API_BASE_URL}/api/game/move`, {
+                const response = await fetch(`${API_BASE_URL}/api/game/move`, {
                     method: 'POST'
                 });
-                if (!moveResponse.ok) throw new Error('Failed to move snake');
-
-                // Get game state
-                const stateResponse = await fetch(`${API_BASE_URL}/api/game/state`);
-                if (!stateResponse.ok) throw new Error('Failed to get game state');
-                
-                const state = await stateResponse.json();
-                
-                // Update score
-                score = state.score;
-                document.querySelector('.score').textContent = `Score: ${score}`;
-
-                // Draw game
-                drawGame(state);
-
-                // Check game over
-                if (state.game_over) {
-                    clearInterval(gameLoop);
-                    document.querySelector('.final-score').textContent = score;
-                    document.querySelector('.game-over').style.display = 'block';
+                if (response.ok) {
+                    const state = await fetch(`${API_BASE_URL}/api/game/state`).then(r => r.json());
+                    if (state.is_game_over) {
+                        clearInterval(gameInterval);
+                        gameInterval = null;
+                        showGameOver(state.score);
+                        return;
+                    }
+                    drawGame(state);
+                    score = state.score;
+                    updateScore();
                 }
             } catch (error) {
                 console.error('Error updating game:', error);
             }
         }
 
-        // Draw game state
-        function drawGame(state) {
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw snake
-            ctx.fillStyle = '#4CAF50';
-            state.snake.forEach(([x, y]) => {
-                ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-            });
-
-            // Draw food
-            ctx.fillStyle = '#ff0000';
-            const [foodX, foodY] = state.food;
-            ctx.fillRect(foodX * CELL_SIZE, foodY * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
-        }
-
-        // Change direction
-        async function changeDirection(direction) {
+        async function cleanupGame() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/game/direction/${direction}`, {
+                const response = await fetch(`${API_BASE_URL}/api/game/cleanup`, {
                     method: 'POST'
                 });
-                if (!response.ok) throw new Error('Failed to change direction');
+                if (response.ok) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    score = 0;
+                    updateScore();
+                }
+            } catch (error) {
+                console.error('Error cleaning up game:', error);
+            }
+        }
+
+        function drawGame(state) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw grid
+            ctx.strokeStyle = '#f0f0f0';
+            for (let i = 0; i < gridSize; i++) {
+                for (let j = 0; j < gridSize; j++) {
+                    ctx.strokeRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                }
+            }
+            
+            // Draw snake
+            state.snake_positions.forEach((pos, index) => {
+                if (index === 0) {
+                    // Head
+                    ctx.fillStyle = '#2E7D32';
+                } else {
+                    // Body
+                    ctx.fillStyle = '#4CAF50';
+                }
+                ctx.fillRect(pos[0] * cellSize, pos[1] * cellSize, cellSize - 1, cellSize - 1);
+            });
+            
+            // Draw food
+            ctx.fillStyle = '#FF5722';
+            ctx.beginPath();
+            ctx.arc(
+                state.food_position[0] * cellSize + cellSize/2,
+                state.food_position[1] * cellSize + cellSize/2,
+                cellSize/2 - 1,
+                0,
+                Math.PI * 2
+            );
+            ctx.fill();
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        function showGameOver(finalScore) {
+            document.getElementById('final-score').textContent = `Score: ${finalScore}`;
+            document.getElementById('game-over').style.display = 'block';
+        }
+
+        async function changeDirection(direction) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/game/direction`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ direction })
+                });
             } catch (error) {
                 console.error('Error changing direction:', error);
             }
         }
 
-        // Reset game
-        function resetGame() {
-            initGame();
-        }
-
-        // Keyboard controls
-        document.addEventListener('keydown', (event) => {
-            switch(event.key) {
-                case 'ArrowUp':
-                    changeDirection('up');
-                    break;
-                case 'ArrowDown':
-                    changeDirection('down');
-                    break;
-                case 'ArrowLeft':
-                    changeDirection('left');
-                    break;
-                case 'ArrowRight':
-                    changeDirection('right');
-                    break;
+        document.addEventListener('keydown', async (e) => {
+            let direction;
+            switch(e.key) {
+                case 'ArrowUp': direction = 'up'; break;
+                case 'ArrowRight': direction = 'right'; break;
+                case 'ArrowDown': direction = 'down'; break;
+                case 'ArrowLeft': direction = 'left'; break;
+                default: return;
             }
+            await changeDirection(direction);
         });
-
-        // Start game on load
-        initGame();
     </script>
 </body>
 </html> 
