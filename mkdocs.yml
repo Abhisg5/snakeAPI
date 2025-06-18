@@ -1,0 +1,71 @@
+site_name: Snake Game API
+site_description: A modern implementation of the classic Snake game with a C-based core and Python API
+site_author: Your Name
+repo_url: https://github.com/yourusername/snakeAPI
+repo_name: snakeAPI
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - search.share
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Configuration: getting-started/configuration.md
+  - API Reference:
+    - Overview: api/overview.md
+    - Endpoints: api/endpoints.md
+    - Authentication: api/authentication.md
+    - Error Handling: api/error-handling.md
+    - Python API: ../api/index.html
+    - C++ API: ../cpp/index.html
+  - Frontend:
+    - Web Version: frontend/web.md
+    - Embed Version: frontend/embed.md
+  - Deployment:
+    - API Deployment: deployment/api.md
+    - Frontend Deployment: deployment/frontend.md
+  - Contributing:
+    - Development Guide: contributing/development.md
+    - Code Style: contributing/code-style.md
+    - Pull Requests: contributing/pull-requests.md
+
+plugins:
+  - search
+  - git-revision-date-localized:
+      type: datetime 
