@@ -255,7 +255,7 @@
                 });
                 if (response.ok) {
                     const state = await fetch(`${API_BASE_URL}/api/game/state`).then(r => r.json());
-                    if (state.is_game_over) {
+                    if (state.game_over) {
                         clearInterval(gameInterval);
                         gameInterval = null;
                         showGameOver(state.score);
@@ -299,7 +299,7 @@
             }
             
             // Draw snake
-            state.snake_positions.forEach((pos, index) => {
+            state.snake.forEach((pos, index) => {
                 if (index === 0) {
                     // Head
                     ctx.fillStyle = '#2E7D32';
@@ -314,8 +314,8 @@
             ctx.fillStyle = '#FF5722';
             ctx.beginPath();
             ctx.arc(
-                state.food_position[0] * cellSize + cellSize/2,
-                state.food_position[1] * cellSize + cellSize/2,
+                state.food[0] * cellSize + cellSize/2,
+                state.food[1] * cellSize + cellSize/2,
                 cellSize/2 - 1,
                 0,
                 Math.PI * 2
