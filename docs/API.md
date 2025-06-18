@@ -1,188 +1,231 @@
 # Snake Game API Documentation
 
-This document describes how to use the Snake Game API to embed the game in your own website or application.
+## Overview
 
-## API Endpoints
+The Snake Game API provides a RESTful interface to control and interact with the Snake game. The API is built using Flask and provides endpoints for game state management, snake movement, and direction control.
+
+## Base URL
+
+```
+https://snakeapi.onrender.com
+```
+
+## Authentication
+
+The API currently does not require authentication.
+
+## Endpoints
 
 ### Game State
+
+#### Get Current Game State
+
 ```http
 GET /api/game/state
 ```
-Returns the current state of the game.
 
-Response:
+Returns the current state of the game, including snake position, food position, score, and game status.
+
+**Response**
+
 ```json
 {
-    "snake": [[x1, y1], [x2, y2], ...],  // Array of snake segment positions
-    "food": [x, y],                       // Food position
-    "score": 0,                           // Current score
-    "game_over": false                    // Game over status
+    "snake": [[x1, y1], [x2, y2], ...],
+    "food": [x, y],
+    "score": 0,
+    "game_over": false,
+    "direction": "right"
 }
 ```
 
-### Move Snake
+**Example**
+
+```javascript
+const response = await fetch('https://snakeapi.onrender.com/api/game/state');
+const state = await response.json();
+console.log(state);
+```
+
+### Game Control
+
+#### Move Snake
+
 ```http
 POST /api/game/move
 ```
-Moves the snake one step forward.
 
-Response:
+Moves the snake one step in the current direction.
+
+**Response**
+
 ```json
 {
     "success": true
 }
 ```
 
-### Change Direction
+**Example**
+
+```javascript
+const response = await fetch('https://snakeapi.onrender.com/api/game/move', {
+    method: 'POST'
+});
+const result = await response.json();
+```
+
+#### Change Direction
+
 ```http
-POST /api/game/direction
-Content-Type: application/json
-
-{
-    "direction": 0  // 0: up, 1: right, 2: down, 3: left
-}
+POST /api/game/direction/{direction}
 ```
-Changes the snake's direction.
 
-Response:
+Changes the snake's direction. Valid directions are: "up", "right", "down", "left".
+
+**Parameters**
+
+- `direction` (path parameter): The new direction for the snake
+
+**Response**
+
 ```json
 {
     "success": true
 }
 ```
 
-### Reset Game
+**Example**
+
+```javascript
+const response = await fetch('https://snakeapi.onrender.com/api/game/direction/up', {
+    method: 'POST'
+});
+const result = await response.json();
+```
+
+#### Reset Game
+
 ```http
 POST /api/game/reset
 ```
+
 Resets the game to its initial state.
 
-Response:
+**Response**
+
 ```json
 {
     "success": true
 }
 ```
 
-## Embedding the Game
-
-### Option 1: Using an iframe
-```html
-<iframe src="http://localhost:4000" width="500" height="600" frameborder="0"></iframe>
-```
-
-### Option 2: Using the API Directly
-Here's a basic example of how to use the API in your own JavaScript code:
+**Example**
 
 ```javascript
-class SnakeGame {
-    constructor(containerId) {
-        this.container = document.getElementById(containerId);
-        this.canvas = document.createElement('canvas');
-        this.canvas.width = 400;
-        this.canvas.height = 400;
-        this.container.appendChild(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
-        this.gameLoop = null;
-        this.cellSize = 20;
-    }
-
-    start() {
-        this.gameLoop = setInterval(() => this.update(), 200);
-    }
-
-    async update() {
-        try {
-            await fetch('http://localhost:4000/api/game/move', { method: 'POST' });
-            const response = await fetch('http://localhost:4000/api/game/state');
-            const state = await response.json();
-            this.draw(state);
-        } catch (error) {
-            console.error('Error:', error);
-            clearInterval(this.gameLoop);
-        }
-    }
-
-    changeDirection(direction) {
-        fetch('http://localhost:4000/api/game/direction', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ direction })
-        });
-    }
-
-    draw(state) {
-        // Clear canvas
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
-        // Draw snake
-        state.snake.forEach(([x, y]) => {
-            this.ctx.fillStyle = '#4CAF50';
-            this.ctx.fillRect(x * this.cellSize, y * this.cellSize, this.cellSize - 1, this.cellSize - 1);
-        });
-
-        // Draw food
-        this.ctx.fillStyle = '#ff0000';
-        const [foodX, foodY] = state.food;
-        this.ctx.fillRect(foodX * this.cellSize, foodY * this.cellSize, this.cellSize - 1, this.cellSize - 1);
-    }
-}
-
-// Usage example:
-const game = new SnakeGame('game-container');
-game.start();
-
-// Add keyboard controls
-document.addEventListener('keydown', (event) => {
-    switch(event.key) {
-        case 'ArrowUp': game.changeDirection(0); break;
-        case 'ArrowRight': game.changeDirection(1); break;
-        case 'ArrowDown': game.changeDirection(2); break;
-        case 'ArrowLeft': game.changeDirection(3); break;
-    }
+const response = await fetch('https://snakeapi.onrender.com/api/game/reset', {
+    method: 'POST'
 });
-```
-
-## Python API
-
-You can also use the game through the Python API:
-
-```python
-from snake_api import SnakeAPI
-
-# Create a new game instance
-game = SnakeAPI()
-
-# Move the snake
-game.move()
-
-# Change direction (0: up, 1: right, 2: down, 3: left)
-game.change_direction(1)
-
-# Get game state
-snake_positions = game.get_snake_positions()
-food_position = game.get_food_position()
-score = game.get_score()
-is_game_over = game.is_game_over()
-
-# Clean up when done
-game.cleanup()
+const result = await response.json();
 ```
 
 ## Error Handling
 
-All API endpoints return appropriate HTTP status codes:
-- 200: Success
-- 400: Bad Request (invalid parameters)
-- 500: Server Error
+The API uses standard HTTP status codes to indicate the success or failure of requests:
 
-Error responses include a message:
+- `200 OK`: Request succeeded
+- `400 Bad Request`: Invalid request parameters
+- `404 Not Found`: Endpoint not found
+- `500 Internal Server Error`: Server-side error
+
+Error responses include a message explaining the error:
+
 ```json
 {
-    "error": "Error message"
+    "error": "Error message description"
 }
 ```
 
+## Rate Limiting
+
+The API currently does not implement rate limiting. However, please be mindful of server resources and avoid making excessive requests.
+
 ## CORS Support
 
-The API supports Cross-Origin Resource Sharing (CORS), allowing you to make requests from different domains. The server is configured to accept requests from any origin. 
+The API supports Cross-Origin Resource Sharing (CORS) and allows requests from any origin. This enables the frontend to be hosted on different domains.
+
+## WebSocket Support
+
+The API does not currently support WebSocket connections. All communication is done through HTTP requests.
+
+## Examples
+
+### Complete Game Flow
+
+```javascript
+// Initialize game
+await fetch('https://snakeapi.onrender.com/api/game/reset', {
+    method: 'POST'
+});
+
+// Game loop
+async function gameLoop() {
+    // Get current state
+    const state = await fetch('https://snakeapi.onrender.com/api/game/state')
+        .then(r => r.json());
+    
+    if (state.game_over) {
+        console.log('Game Over! Score:', state.score);
+        return;
+    }
+    
+    // Move snake
+    await fetch('https://snakeapi.onrender.com/api/game/move', {
+        method: 'POST'
+    });
+    
+    // Continue loop
+    setTimeout(gameLoop, 100);
+}
+
+// Start game
+gameLoop();
+```
+
+### Direction Control
+
+```javascript
+// Handle keyboard input
+document.addEventListener('keydown', async (e) => {
+    let direction;
+    switch(e.key) {
+        case 'ArrowUp':
+            direction = 'up';
+            break;
+        case 'ArrowRight':
+            direction = 'right';
+            break;
+        case 'ArrowDown':
+            direction = 'down';
+            break;
+        case 'ArrowLeft':
+            direction = 'left';
+            break;
+        default:
+            return;
+    }
+    
+    await fetch(`https://snakeapi.onrender.com/api/game/direction/${direction}`, {
+        method: 'POST'
+    });
+});
+```
+
+## Best Practices
+
+1. **Error Handling**: Always implement proper error handling for API requests.
+2. **State Management**: Keep track of the game state locally to reduce API calls.
+3. **Rate Limiting**: Implement client-side rate limiting to prevent excessive requests.
+4. **Caching**: Cache game state when appropriate to improve performance.
+
+## Support
+
+For support, please open an issue on the GitHub repository or contact the maintainers. 
