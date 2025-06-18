@@ -202,6 +202,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📫 Contact
 
-Your Name - [@yourtwitter](https://twitter.com/yourtwitter)
+Your Name - [@Abhi Gaddipati](https://twitter.com/yourtwitter)
 
-Project Link: [https://github.com/yourusername/snakeAPI](https://github.com/yourusername/snakeAPI) 
+Project Link: [https://github.com/yourusername/snakeAPI](https://github.com/Abhisg5/snakeAPI) 
