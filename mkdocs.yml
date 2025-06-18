@@ -1,8 +1,9 @@
-site_name: Snake Game API
-site_description: A modern implementation of the classic Snake game with a C-based core and Python API
-site_author: Your Name
-repo_url: https://github.com/yourusername/snakeAPI
-repo_name: snakeAPI
+site_name: Snake Game API Documentation
+site_description: Documentation for the Snake Game API with C++ core and Python bindings
+site_author: agaddipati
+repo_name: agaddipati/snakeAPI
+repo_url: https://github.com/agaddipati/snakeAPI
+edit_uri: edit/main/docs/
 
 theme:
   name: material
@@ -10,10 +11,8 @@ theme:
     - navigation.tabs
     - navigation.sections
     - navigation.expand
-    - navigation.top
     - search.highlight
-    - search.share
-    - search.suggest
+    - content.code.copy
   palette:
     - scheme: default
       primary: indigo
@@ -29,41 +28,47 @@ theme:
         name: Switch to light mode
 
 markdown_extensions:
-  - pymdownx.highlight
-  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
   - pymdownx.inlinehilite
-  - pymdownx.tabbed
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - admonition
-  - footnotes
+  - attr_list
+  - md_in_html
   - toc:
       permalink: true
 
+plugins:
+  - search
+  - git-revision-date-localized
+
 nav:
   - Home: index.md
-  - Getting Started:
-    - Installation: getting-started/installation.md
-    - Quick Start: getting-started/quickstart.md
-    - Configuration: getting-started/configuration.md
-  - API Reference:
-    - Overview: api/overview.md
+  - Live Demo:
+    - Web Version: https://snake-api-xi.vercel.app
+    - API Endpoint: https://snakeapi.onrender.com
+  - API Documentation:
+    - Overview: api/index.md
     - Endpoints: api/endpoints.md
-    - Authentication: api/authentication.md
-    - Error Handling: api/error-handling.md
-    - Python API: ../api/index.html
-    - C++ API: ../cpp/index.html
-  - Frontend:
-    - Web Version: frontend/web.md
-    - Embed Version: frontend/embed.md
-  - Deployment:
-    - API Deployment: deployment/api.md
-    - Frontend Deployment: deployment/frontend.md
-  - Contributing:
-    - Development Guide: contributing/development.md
-    - Code Style: contributing/code-style.md
-    - Pull Requests: contributing/pull-requests.md
-
-plugins:
-  - search 
+    - Examples: api/examples.md
+  - C++ Core:
+    - Overview: cpp/index.md
+    - API Reference: cpp/api.md
+  - Python API:
+    - Overview: python/index.md
+    - API Reference: python/api.md
+  - Development:
+    - Setup: development/setup.md
+    - Testing: development/testing.md
+    - Contributing: development/contributing.md 

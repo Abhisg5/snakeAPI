@@ -1,5 +1,19 @@
 # Snake Game API
 
+[![Build Status](https://github.com/agaddipati/snakeAPI/actions/workflows/pages.yml/badge.svg)](https://github.com/agaddipati/snakeAPI/actions/workflows/pages.yml)
+[![Coverage](https://codecov.io/gh/agaddipati/snakeAPI/branch/main/graph/badge.svg)](https://codecov.io/gh/agaddipati/snakeAPI)
+
+## 🎮 Live Demo
+
+- **Web Version**: [Play Snake Game](https://snake-api-xi.vercel.app)
+- **API Endpoint**: [Snake Game API](https://snakeapi.onrender.com)
+
+## 📚 Documentation
+
+- [API Documentation](https://agaddipati.github.io/snakeAPI/api/)
+- [C++ Core Documentation](https://agaddipati.github.io/snakeAPI/cpp/)
+- [Python API Documentation](https://agaddipati.github.io/snakeAPI/python/)
+
 [![Build Status](https://github.com/yourusername/snakeAPI/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/snakeAPI/actions/workflows/ci.yml)
 [![Documentation Status](https://github.com/yourusername/snakeAPI/actions/workflows/docs.yml/badge.svg)](https://github.com/yourusername/snakeAPI/actions/workflows/docs.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
