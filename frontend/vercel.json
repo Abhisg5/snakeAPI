@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/web",
+      "dest": "/web/index.html"
+    },
+    {
+      "src": "/embed",
+      "dest": "/embed/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/web/index.html"
+    }
+  ],
+  "builds": [
+    {
+      "src": "web/index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "embed/index.html",
+      "use": "@vercel/static"
+    }
+  ]
+} 

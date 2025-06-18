@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game Embed</title>
+    <style>
+        .snake-game {
+            width: 400px;
+            height: 500px;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+        .game-container {
+            position: relative;
+        }
+        canvas {
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+        .score {
+            font-size: 20px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="snake-game">
+        <div class="score">Score: 0</div>
+        <div class="game-container">
+            <canvas id="gameCanvas" width="400" height="400"></canvas>
+            <div class="game-over">
+                <h2>Game Over!</h2>
+                <p>Your score: <span class="final-score">0</span></p>
+                <button onclick="resetGame()">Play Again</button>
+            </div>
+        </div>
+        <div class="controls">
+            <div></div>
+            <button onclick="changeDirection('up')">↑</button>
+            <div></div>
+            <button onclick="changeDirection('left')">←</button>
+            <button onclick="changeDirection('right')">→</button>
+            <div></div>
+            <button onclick="changeDirection('down')">↓</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = process.env.API_URL || 'https://snake-game-api.onrender.com';
+        const GRID_SIZE = 20;
+        const CELL_SIZE = 20;
+        const GAME_SPEED = 200;
+
+        // Game state
+        let gameLoop;
+        let score = 0;
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Initialize game
+        async function initGame() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/game/reset`, {
+                    method: 'POST'
+                });
+                if (!response.ok) throw new Error('Failed to reset game');
+                startGame();
+            } catch (error) {
+                console.error('Error initializing game:', error);
+            }
+        }
+
+        // Start game loop
+        function startGame() {
+            if (gameLoop) clearInterval(gameLoop);
+            gameLoop = setInterval(updateGame, GAME_SPEED);
+            document.querySelector('.game-over').style.display = 'none';
+        }
+
+        // Update game state
+        async function updateGame() {
+            try {
+                // Move snake
+                const moveResponse = await fetch(`${API_BASE_URL}/api/game/move`, {
+                    method: 'POST'
+                });
+                if (!moveResponse.ok) throw new Error('Failed to move snake');
+
+                // Get game state
+                const stateResponse = await fetch(`${API_BASE_URL}/api/game/state`);
+                if (!stateResponse.ok) throw new Error('Failed to get game state');
+                
+                const state = await stateResponse.json();
+                
+                // Update score
+                score = state.score;
+                document.querySelector('.score').textContent = `Score: ${score}`;
+
+                // Draw game
+                drawGame(state);
+
+                // Check game over
+                if (state.game_over) {
+                    clearInterval(gameLoop);
+                    document.querySelector('.final-score').textContent = score;
+                    document.querySelector('.game-over').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error updating game:', error);
+            }
+        }
+
+        // Draw game state
+        function drawGame(state) {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw snake
+            ctx.fillStyle = '#4CAF50';
+            state.snake.forEach(([x, y]) => {
+                ctx.fillRect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+            });
+
+            // Draw food
+            ctx.fillStyle = '#ff0000';
+            const [foodX, foodY] = state.food;
+            ctx.fillRect(foodX * CELL_SIZE, foodY * CELL_SIZE, CELL_SIZE - 1, CELL_SIZE - 1);
+        }
+
+        // Change direction
+        async function changeDirection(direction) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/game/direction/${direction}`, {
+                    method: 'POST'
+                });
+                if (!response.ok) throw new Error('Failed to change direction');
+            } catch (error) {
+                console.error('Error changing direction:', error);
+            }
+        }
+
+        // Reset game
+        function resetGame() {
+            initGame();
+        }
+
+        // Keyboard controls
+        document.addEventListener('keydown', (event) => {
+            switch(event.key) {
+                case 'ArrowUp':
+                    changeDirection('up');
+                    break;
+                case 'ArrowDown':
+                    changeDirection('down');
+                    break;
+                case 'ArrowLeft':
+                    changeDirection('left');
+                    break;
+                case 'ArrowRight':
+                    changeDirection('right');
+                    break;
+            }
+        });
+
+        // Start game on load
+        initGame();
+    </script>
+</body>
+</html> 
