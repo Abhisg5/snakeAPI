@@ -1,13 +1,9 @@
 services:
   - type: web
-    name: snake-game-api
+    name: snakeapi
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      cd src/core && make
-    startCommand: python app.py
+    buildCommand: make build
+    startCommand: gunicorn app:app
     envVars:
       - key: PYTHON_VERSION
-        value: 3.9.0
-      - key: PORT
-        value: 4000 
+        value: 3.9.0 
