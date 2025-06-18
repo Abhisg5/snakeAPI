@@ -11,23 +11,25 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy source code
-COPY src/ /app/src/
-COPY examples/web/ /app/web/
-COPY Makefile /app/
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code and app
+COPY src/ src/
+COPY app.py .
+COPY Makefile .
 
 # Build the core library
-RUN cd src/core && make
-
-# Install Python dependencies
-RUN pip install --no-cache-dir -r web/requirements.txt
+RUN make build
 
 # Set environment variables
 ENV PYTHONPATH=/app
-ENV LD_LIBRARY_PATH=/app/src/core
+ENV FLASK_APP=app.py
+ENV FLASK_ENV=production
 
 # Expose port
 EXPOSE 4000
 
-# Run the web server
-CMD ["python", "web/app.py"] 
+# Run the API server with gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:4000", "app:app"] 
