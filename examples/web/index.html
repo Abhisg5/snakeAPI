@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #game-board {
+            border: 2px solid #333;
+            background-color: #fff;
+        }
+        #score {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+        #controls {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-board" width="400" height="400"></canvas>
+        <div id="score">Score: 0</div>
+        <div id="controls">
+            <button onclick="initGame()">New Game</button>
+            <button onclick="cleanupGame()">End Game</button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('game-board');
+        const ctx = canvas.getContext('2d');
+        const cellSize = 20;
+        const gridSize = canvas.width / cellSize;
+        let gameInterval;
+        let score = 0;
+
+        // Prevent arrow keys from scrolling the page
+        window.addEventListener('keydown', function(e) {
+            if([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+        });
+
+        async function initGame() {
+            try {
+                // Clear any existing game loop
+                if (gameInterval) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                }
+                
+                // Clear the canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Reset score
+                score = 0;
+                updateScore();
+                
+                // Call reset endpoint
+                const response = await fetch('http://localhost:4000/api/game/reset', {
+                    method: 'POST'
+                });
+                
+                if (response.ok) {
+                    // Get initial state and draw it
+                    const state = await fetch('http://localhost:4000/api/game/state').then(r => r.json());
+                    drawGame(state);
+                    
+                    // Start new game loop
+                    gameInterval = setInterval(updateGame, 100);
+                } else {
+                    console.error('Failed to reset game:', await response.text());
+                }
+            } catch (error) {
+                console.error('Error initializing game:', error);
+            }
+        }
+
+        async function updateGame() {
+            try {
+                const response = await fetch('http://localhost:4000/api/game/move', {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    const state = await fetch('http://localhost:4000/api/game/state').then(r => r.json());
+                    if (state.is_game_over) {
+                        clearInterval(gameInterval);
+                        gameInterval = null;
+                        alert('Game Over! Score: ' + score);
+                        return;
+                    }
+                    drawGame(state);
+                    score = state.score;
+                    updateScore();
+                }
+            } catch (error) {
+                console.error('Error updating game:', error);
+            }
+        }
+
+        async function cleanupGame() {
+            try {
+                const response = await fetch('http://localhost:4000/api/game/cleanup', {
+                    method: 'POST'
+                });
+                if (response.ok) {
+                    clearInterval(gameInterval);
+                    gameInterval = null;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    score = 0;
+                    updateScore();
+                }
+            } catch (error) {
+                console.error('Error cleaning up game:', error);
+            }
+        }
+
+        function drawGame(state) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw snake
+            ctx.fillStyle = '#4CAF50';
+            state.snake_positions.forEach(pos => {
+                ctx.fillRect(pos[0] * cellSize, pos[1] * cellSize, cellSize - 1, cellSize - 1);
+            });
+            
+            // Draw food
+            ctx.fillStyle = '#FF5722';
+            ctx.fillRect(state.food_position[0] * cellSize, state.food_position[1] * cellSize, cellSize - 1, cellSize - 1);
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        document.addEventListener('keydown', async (e) => {
+            let direction;
+            switch(e.key) {
+                case 'ArrowUp': direction = 'up'; break;
+                case 'ArrowRight': direction = 'right'; break;
+                case 'ArrowDown': direction = 'down'; break;
+                case 'ArrowLeft': direction = 'left'; break;
+                default: return;
+            }
+            
+            try {
+                const response = await fetch('http://localhost:4000/api/game/direction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ direction })
+                });
+            } catch (error) {
+                console.error('Error changing direction:', error);
+            }
+        });
+    </script>
+</body>
+</html> 

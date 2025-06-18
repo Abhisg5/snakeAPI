@@ -1,0 +1,911 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.6">
+<title>snake_api API documentation</title>
+<meta name="description" content="Python API for the Snake game C library …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>snake_api</code></h1>
+</header>
+<section id="section-intro">
+<p>Python API for the Snake game C library.</p>
+<p>This module provides a Python interface to the Snake game C library. It wraps the C functions
+and provides a more Pythonic interface for game control and state management.</p>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">from src.api.snake_api import SnakeAPI
+
+# Initialize the API with the path to the compiled C library
+api = SnakeAPI(&quot;build/libsnake.so&quot;)
+
+# Start playing
+api.move()  # Move the snake
+api.change_direction(&quot;right&quot;)  # Change direction
+score = api.get_score()  # Get current score
+</code></pre>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="snake_api.GameState"><code class="flex name class">
+<span>class <span class="ident">GameState</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GameState(Structure):
+    &#34;&#34;&#34;Structure to hold game state data.
+    
+    This class represents the internal game state structure used by the C library.
+    It maps directly to the C structure and is used for data exchange between
+    Python and C code.
+    
+    Attributes:
+        snake_positions: Pointer to array of snake segment positions
+        snake_length: Current length of the snake
+        food_position: Pointer to array containing food position
+        score: Current game score
+        is_game_over: Boolean indicating if game is over
+    &#34;&#34;&#34;
+    _fields_ = [
+        (&#34;snake_positions&#34;, POINTER(c_int)),
+        (&#34;snake_length&#34;, c_int),
+        (&#34;food_position&#34;, POINTER(c_int)),
+        (&#34;score&#34;, c_int),
+        (&#34;is_game_over&#34;, c_bool),
+    ]</code></pre>
+</details>
+<div class="desc"><p>Structure to hold game state data.</p>
+<p>This class represents the internal game state structure used by the C library.
+It maps directly to the C structure and is used for data exchange between
+Python and C code.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>snake_positions</code></strong></dt>
+<dd>Pointer to array of snake segment positions</dd>
+<dt><strong><code>snake_length</code></strong></dt>
+<dd>Current length of the snake</dd>
+<dt><strong><code>food_position</code></strong></dt>
+<dd>Pointer to array containing food position</dd>
+<dt><strong><code>score</code></strong></dt>
+<dd>Current game score</dd>
+<dt><strong><code>is_game_over</code></strong></dt>
+<dd>Boolean indicating if game is over</dd>
+</dl></div>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>_ctypes.Structure</li>
+<li>_ctypes._CData</li>
+</ul>
+<h3>Instance variables</h3>
+<dl>
+<dt id="snake_api.GameState.food_position"><code class="name">var <span class="ident">food_position</span></code></dt>
+<dd>
+<div class="desc"><p>Structure/Union member</p></div>
+</dd>
+<dt id="snake_api.GameState.is_game_over"><code class="name">var <span class="ident">is_game_over</span></code></dt>
+<dd>
+<div class="desc"><p>Structure/Union member</p></div>
+</dd>
+<dt id="snake_api.GameState.score"><code class="name">var <span class="ident">score</span></code></dt>
+<dd>
+<div class="desc"><p>Structure/Union member</p></div>
+</dd>
+<dt id="snake_api.GameState.snake_length"><code class="name">var <span class="ident">snake_length</span></code></dt>
+<dd>
+<div class="desc"><p>Structure/Union member</p></div>
+</dd>
+<dt id="snake_api.GameState.snake_positions"><code class="name">var <span class="ident">snake_positions</span></code></dt>
+<dd>
+<div class="desc"><p>Structure/Union member</p></div>
+</dd>
+</dl>
+</dd>
+<dt id="snake_api.SnakeAPI"><code class="flex name class">
+<span>class <span class="ident">SnakeAPI</span></span>
+<span>(</span><span>lib_path: str)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SnakeAPI:
+    &#34;&#34;&#34;Python wrapper for the Snake game C library.
+    
+    This class provides a high-level interface to control the Snake game.
+    It handles all communication with the C library and provides methods
+    for game control, state management, and error handling.
+    
+    Attributes:
+        lib: The loaded C library instance
+        game_instance: Pointer to the current game instance in C
+    
+    Example:
+        ```python
+        api = SnakeAPI(&#34;build/libsnake.so&#34;)
+        api.move()
+        api.change_direction(&#34;right&#34;)
+        state = api.get_state()
+        ```
+    &#34;&#34;&#34;
+
+    def __init__(self, lib_path: str):
+        &#34;&#34;&#34;Initialize the Snake API with the C library.
+
+        Args:
+            lib_path: Path to the compiled C library (.so file)
+
+        Raises:
+            RuntimeError: If the library file doesn&#39;t exist or game creation fails
+        &#34;&#34;&#34;
+        if not os.path.exists(lib_path):
+            raise RuntimeError(f&#34;Library not found at {lib_path}&#34;)
+
+        self.lib = CDLL(lib_path)
+        self._setup_function_signatures()
+        self.game_instance = self.lib.create_game()
+        if not self.game_instance:
+            raise RuntimeError(&#34;Failed to create game instance&#34;)
+
+    def _setup_function_signatures(self):
+        &#34;&#34;&#34;Set up C function signatures for the library.
+        
+        This method configures the argument and return types for all C functions
+        that will be called from Python. This is necessary for proper type
+        conversion between Python and C.
+        &#34;&#34;&#34;
+        # Game management
+        self.lib.create_game.restype = c_void_p
+        self.lib.destroy_game.argtypes = [c_void_p]
+        self.lib.reset_game.argtypes = [c_void_p]
+
+        # Movement and direction
+        self.lib.move_snake.argtypes = [c_void_p]
+        self.lib.move_snake.restype = c_bool
+        self.lib.change_direction.argtypes = [c_void_p, c_char_p]
+        self.lib.change_direction.restype = c_bool
+
+        # State queries
+        self.lib.is_game_over.argtypes = [c_void_p]
+        self.lib.is_game_over.restype = c_bool
+        self.lib.get_score.argtypes = [c_void_p]
+        self.lib.get_score.restype = c_int
+        self.lib.get_snake_length.argtypes = [c_void_p]
+        self.lib.get_snake_length.restype = c_int
+
+        # Position management
+        self.lib.get_snake_positions.argtypes = [c_void_p, POINTER(c_int)]
+        self.lib.get_food_position.argtypes = [c_void_p, POINTER(c_int)]
+        self.lib.set_food_position.argtypes = [c_void_p, c_int, c_int]
+
+    def cleanup(self):
+        &#34;&#34;&#34;Clean up resources used by the game instance.
+        
+        This method should be called when the game instance is no longer needed.
+        It ensures proper cleanup of C resources to prevent memory leaks.
+        &#34;&#34;&#34;
+        if hasattr(self, &#34;game_instance&#34;) and self.game_instance:
+            self.lib.destroy_game(self.game_instance)
+            self.game_instance = None
+
+    def __del__(self):
+        &#34;&#34;&#34;Destructor to ensure cleanup of resources.
+        
+        This method is called when the object is garbage collected.
+        It ensures that C resources are properly cleaned up.
+        &#34;&#34;&#34;
+        if hasattr(self, &#34;game_instance&#34;) and self.game_instance:
+            self.cleanup()
+
+    def reset(self):
+        &#34;&#34;&#34;Reset the game to its initial state.
+        
+        This method resets all game state to initial values, including:
+        - Snake position and length
+        - Food position
+        - Score
+        - Game over status
+        
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        self.lib.reset_game(self.game_instance)
+
+    def move(self) -&gt; bool:
+        &#34;&#34;&#34;Move the snake in the current direction.
+
+        This method advances the game by one step, moving the snake in its
+        current direction. The snake will grow if it eats food, and the game
+        will end if the snake hits a wall or itself.
+
+        Returns:
+            bool: True if the move was successful, False if game over
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        return self.lib.move_snake(self.game_instance)
+
+    def change_direction(self, direction: str) -&gt; bool:
+        &#34;&#34;&#34;Change the snake&#39;s direction.
+
+        This method changes the direction in which the snake will move on
+        the next step. The direction cannot be changed to the opposite of
+        the current direction.
+
+        Args:
+            direction: One of &#34;up&#34;, &#34;right&#34;, &#34;down&#34;, &#34;left&#34;
+
+        Returns:
+            bool: True if direction was changed successfully
+
+        Raises:
+            ValueError: If direction is invalid
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        if direction not in [&#34;up&#34;, &#34;right&#34;, &#34;down&#34;, &#34;left&#34;]:
+            raise ValueError(f&#34;Invalid direction: {direction}&#34;)
+        return self.lib.change_direction(self.game_instance, direction.encode())
+
+    def is_game_over(self) -&gt; bool:
+        &#34;&#34;&#34;Check if the game is over.
+
+        The game is over if the snake has hit a wall or itself.
+
+        Returns:
+            bool: True if game is over, False otherwise
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        return self.lib.is_game_over(self.game_instance)
+
+    def get_score(self) -&gt; int:
+        &#34;&#34;&#34;Get the current game score.
+
+        The score increases each time the snake eats food.
+
+        Returns:
+            int: Current score
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        return self.lib.get_score(self.game_instance)
+
+    def get_snake_length(self) -&gt; int:
+        &#34;&#34;&#34;Get the current length of the snake.
+
+        The snake&#39;s length increases each time it eats food.
+
+        Returns:
+            int: Current snake length
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        return self.lib.get_snake_length(self.game_instance)
+
+    def get_snake_positions(self) -&gt; list[tuple[int, int]]:
+        &#34;&#34;&#34;Get the current positions of the snake&#39;s body segments.
+
+        Returns a list of (x, y) coordinates representing the positions
+        of all segments of the snake&#39;s body, with the head at index 0.
+
+        Returns:
+            list[tuple[int, int]]: List of (x, y) coordinates
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        length = self.get_snake_length()
+        positions = (c_int * (length * 2))()
+        self.lib.get_snake_positions(self.game_instance, positions)
+        return [(positions[i], positions[i + 1]) for i in range(0, length * 2, 2)]
+
+    def get_food_position(self) -&gt; tuple[int, int]:
+        &#34;&#34;&#34;Get the current position of the food.
+
+        Returns the (x, y) coordinates of the food item that the snake
+        can eat to grow longer.
+
+        Returns:
+            tuple[int, int]: (x, y) coordinates of food
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        position = (c_int * 2)()
+        self.lib.get_food_position(self.game_instance, position)
+        return (position[0], position[1])
+
+    def set_food_position(self, x: int, y: int):
+        &#34;&#34;&#34;Set the position of the food.
+
+        This method allows manual placement of the food item at a specific
+        position on the game board.
+
+        Args:
+            x: X coordinate
+            y: Y coordinate
+
+        Raises:
+            RuntimeError: If the game instance is not initialized
+        &#34;&#34;&#34;
+        if not self.game_instance:
+            raise RuntimeError(&#34;Game instance not initialized&#34;)
+        self.lib.set_food_position(self.game_instance, x, y)
+
+    def get_state(self) -&gt; dict:
+        &#34;&#34;&#34;Get the complete game state.
+
+        Returns a dictionary containing all current game state information,
+        including snake positions, food position, score, and game over status.
+
+        Returns:
+            dict: Game state containing:
+                - snake: List of (x, y) coordinates for snake body
+                - food: (x, y) coordinates of food
+                - score: Current game score
+                - game_over: Boolean indicating if game is over
+        &#34;&#34;&#34;
+        return {
+            &#34;snake&#34;: self.get_snake_positions(),
+            &#34;food&#34;: self.get_food_position(),
+            &#34;score&#34;: self.get_score(),
+            &#34;game_over&#34;: self.is_game_over(),
+        }</code></pre>
+</details>
+<div class="desc"><p>Python wrapper for the Snake game C library.</p>
+<p>This class provides a high-level interface to control the Snake game.
+It handles all communication with the C library and provides methods
+for game control, state management, and error handling.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>lib</code></strong></dt>
+<dd>The loaded C library instance</dd>
+<dt><strong><code>game_instance</code></strong></dt>
+<dd>Pointer to the current game instance in C</dd>
+</dl>
+<h2 id="example">Example</h2>
+<pre><code class="language-python">api = SnakeAPI(&quot;build/libsnake.so&quot;)
+api.move()
+api.change_direction(&quot;right&quot;)
+state = api.get_state()
+</code></pre>
+<p>Initialize the Snake API with the C library.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>lib_path</code></strong></dt>
+<dd>Path to the compiled C library (.so file)</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the library file doesn't exist or game creation fails</dd>
+</dl></div>
+<h3>Methods</h3>
+<dl>
+<dt id="snake_api.SnakeAPI.change_direction"><code class="name flex">
+<span>def <span class="ident">change_direction</span></span>(<span>self, direction: str) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def change_direction(self, direction: str) -&gt; bool:
+    &#34;&#34;&#34;Change the snake&#39;s direction.
+
+    This method changes the direction in which the snake will move on
+    the next step. The direction cannot be changed to the opposite of
+    the current direction.
+
+    Args:
+        direction: One of &#34;up&#34;, &#34;right&#34;, &#34;down&#34;, &#34;left&#34;
+
+    Returns:
+        bool: True if direction was changed successfully
+
+    Raises:
+        ValueError: If direction is invalid
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    if direction not in [&#34;up&#34;, &#34;right&#34;, &#34;down&#34;, &#34;left&#34;]:
+        raise ValueError(f&#34;Invalid direction: {direction}&#34;)
+    return self.lib.change_direction(self.game_instance, direction.encode())</code></pre>
+</details>
+<div class="desc"><p>Change the snake's direction.</p>
+<p>This method changes the direction in which the snake will move on
+the next step. The direction cannot be changed to the opposite of
+the current direction.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>direction</code></strong></dt>
+<dd>One of "up", "right", "down", "left"</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if direction was changed successfully</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>ValueError</code></dt>
+<dd>If direction is invalid</dd>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.cleanup"><code class="name flex">
+<span>def <span class="ident">cleanup</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def cleanup(self):
+    &#34;&#34;&#34;Clean up resources used by the game instance.
+    
+    This method should be called when the game instance is no longer needed.
+    It ensures proper cleanup of C resources to prevent memory leaks.
+    &#34;&#34;&#34;
+    if hasattr(self, &#34;game_instance&#34;) and self.game_instance:
+        self.lib.destroy_game(self.game_instance)
+        self.game_instance = None</code></pre>
+</details>
+<div class="desc"><p>Clean up resources used by the game instance.</p>
+<p>This method should be called when the game instance is no longer needed.
+It ensures proper cleanup of C resources to prevent memory leaks.</p></div>
+</dd>
+<dt id="snake_api.SnakeAPI.get_food_position"><code class="name flex">
+<span>def <span class="ident">get_food_position</span></span>(<span>self) ‑> tuple[int, int]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_food_position(self) -&gt; tuple[int, int]:
+    &#34;&#34;&#34;Get the current position of the food.
+
+    Returns the (x, y) coordinates of the food item that the snake
+    can eat to grow longer.
+
+    Returns:
+        tuple[int, int]: (x, y) coordinates of food
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    position = (c_int * 2)()
+    self.lib.get_food_position(self.game_instance, position)
+    return (position[0], position[1])</code></pre>
+</details>
+<div class="desc"><p>Get the current position of the food.</p>
+<p>Returns the (x, y) coordinates of the food item that the snake
+can eat to grow longer.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple[int, int]</code></dt>
+<dd>(x, y) coordinates of food</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.get_score"><code class="name flex">
+<span>def <span class="ident">get_score</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_score(self) -&gt; int:
+    &#34;&#34;&#34;Get the current game score.
+
+    The score increases each time the snake eats food.
+
+    Returns:
+        int: Current score
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    return self.lib.get_score(self.game_instance)</code></pre>
+</details>
+<div class="desc"><p>Get the current game score.</p>
+<p>The score increases each time the snake eats food.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>Current score</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.get_snake_length"><code class="name flex">
+<span>def <span class="ident">get_snake_length</span></span>(<span>self) ‑> int</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_snake_length(self) -&gt; int:
+    &#34;&#34;&#34;Get the current length of the snake.
+
+    The snake&#39;s length increases each time it eats food.
+
+    Returns:
+        int: Current snake length
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    return self.lib.get_snake_length(self.game_instance)</code></pre>
+</details>
+<div class="desc"><p>Get the current length of the snake.</p>
+<p>The snake's length increases each time it eats food.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>int</code></dt>
+<dd>Current snake length</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.get_snake_positions"><code class="name flex">
+<span>def <span class="ident">get_snake_positions</span></span>(<span>self) ‑> list[tuple[int, int]]</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_snake_positions(self) -&gt; list[tuple[int, int]]:
+    &#34;&#34;&#34;Get the current positions of the snake&#39;s body segments.
+
+    Returns a list of (x, y) coordinates representing the positions
+    of all segments of the snake&#39;s body, with the head at index 0.
+
+    Returns:
+        list[tuple[int, int]]: List of (x, y) coordinates
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    length = self.get_snake_length()
+    positions = (c_int * (length * 2))()
+    self.lib.get_snake_positions(self.game_instance, positions)
+    return [(positions[i], positions[i + 1]) for i in range(0, length * 2, 2)]</code></pre>
+</details>
+<div class="desc"><p>Get the current positions of the snake's body segments.</p>
+<p>Returns a list of (x, y) coordinates representing the positions
+of all segments of the snake's body, with the head at index 0.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>list[tuple[int, int]]</code></dt>
+<dd>List of (x, y) coordinates</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.get_state"><code class="name flex">
+<span>def <span class="ident">get_state</span></span>(<span>self) ‑> dict</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_state(self) -&gt; dict:
+    &#34;&#34;&#34;Get the complete game state.
+
+    Returns a dictionary containing all current game state information,
+    including snake positions, food position, score, and game over status.
+
+    Returns:
+        dict: Game state containing:
+            - snake: List of (x, y) coordinates for snake body
+            - food: (x, y) coordinates of food
+            - score: Current game score
+            - game_over: Boolean indicating if game is over
+    &#34;&#34;&#34;
+    return {
+        &#34;snake&#34;: self.get_snake_positions(),
+        &#34;food&#34;: self.get_food_position(),
+        &#34;score&#34;: self.get_score(),
+        &#34;game_over&#34;: self.is_game_over(),
+    }</code></pre>
+</details>
+<div class="desc"><p>Get the complete game state.</p>
+<p>Returns a dictionary containing all current game state information,
+including snake positions, food position, score, and game over status.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dict</code></dt>
+<dd>Game state containing:
+- snake: List of (x, y) coordinates for snake body
+- food: (x, y) coordinates of food
+- score: Current game score
+- game_over: Boolean indicating if game is over</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.is_game_over"><code class="name flex">
+<span>def <span class="ident">is_game_over</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_game_over(self) -&gt; bool:
+    &#34;&#34;&#34;Check if the game is over.
+
+    The game is over if the snake has hit a wall or itself.
+
+    Returns:
+        bool: True if game is over, False otherwise
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    return self.lib.is_game_over(self.game_instance)</code></pre>
+</details>
+<div class="desc"><p>Check if the game is over.</p>
+<p>The game is over if the snake has hit a wall or itself.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if game is over, False otherwise</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.move"><code class="name flex">
+<span>def <span class="ident">move</span></span>(<span>self) ‑> bool</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move(self) -&gt; bool:
+    &#34;&#34;&#34;Move the snake in the current direction.
+
+    This method advances the game by one step, moving the snake in its
+    current direction. The snake will grow if it eats food, and the game
+    will end if the snake hits a wall or itself.
+
+    Returns:
+        bool: True if the move was successful, False if game over
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    return self.lib.move_snake(self.game_instance)</code></pre>
+</details>
+<div class="desc"><p>Move the snake in the current direction.</p>
+<p>This method advances the game by one step, moving the snake in its
+current direction. The snake will grow if it eats food, and the game
+will end if the snake hits a wall or itself.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>bool</code></dt>
+<dd>True if the move was successful, False if game over</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.reset"><code class="name flex">
+<span>def <span class="ident">reset</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reset(self):
+    &#34;&#34;&#34;Reset the game to its initial state.
+    
+    This method resets all game state to initial values, including:
+    - Snake position and length
+    - Food position
+    - Score
+    - Game over status
+    
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    self.lib.reset_game(self.game_instance)</code></pre>
+</details>
+<div class="desc"><p>Reset the game to its initial state.</p>
+<p>This method resets all game state to initial values, including:
+- Snake position and length
+- Food position
+- Score
+- Game over status</p>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+<dt id="snake_api.SnakeAPI.set_food_position"><code class="name flex">
+<span>def <span class="ident">set_food_position</span></span>(<span>self, x: int, y: int)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_food_position(self, x: int, y: int):
+    &#34;&#34;&#34;Set the position of the food.
+
+    This method allows manual placement of the food item at a specific
+    position on the game board.
+
+    Args:
+        x: X coordinate
+        y: Y coordinate
+
+    Raises:
+        RuntimeError: If the game instance is not initialized
+    &#34;&#34;&#34;
+    if not self.game_instance:
+        raise RuntimeError(&#34;Game instance not initialized&#34;)
+    self.lib.set_food_position(self.game_instance, x, y)</code></pre>
+</details>
+<div class="desc"><p>Set the position of the food.</p>
+<p>This method allows manual placement of the food item at a specific
+position on the game board.</p>
+<h2 id="args">Args</h2>
+<dl>
+<dt><strong><code>x</code></strong></dt>
+<dd>X coordinate</dd>
+<dt><strong><code>y</code></strong></dt>
+<dd>Y coordinate</dd>
+</dl>
+<h2 id="raises">Raises</h2>
+<dl>
+<dt><code>RuntimeError</code></dt>
+<dd>If the game instance is not initialized</dd>
+</dl></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="snake_api.GameState" href="#snake_api.GameState">GameState</a></code></h4>
+<ul class="">
+<li><code><a title="snake_api.GameState.food_position" href="#snake_api.GameState.food_position">food_position</a></code></li>
+<li><code><a title="snake_api.GameState.is_game_over" href="#snake_api.GameState.is_game_over">is_game_over</a></code></li>
+<li><code><a title="snake_api.GameState.score" href="#snake_api.GameState.score">score</a></code></li>
+<li><code><a title="snake_api.GameState.snake_length" href="#snake_api.GameState.snake_length">snake_length</a></code></li>
+<li><code><a title="snake_api.GameState.snake_positions" href="#snake_api.GameState.snake_positions">snake_positions</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="snake_api.SnakeAPI" href="#snake_api.SnakeAPI">SnakeAPI</a></code></h4>
+<ul class="two-column">
+<li><code><a title="snake_api.SnakeAPI.change_direction" href="#snake_api.SnakeAPI.change_direction">change_direction</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.cleanup" href="#snake_api.SnakeAPI.cleanup">cleanup</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.get_food_position" href="#snake_api.SnakeAPI.get_food_position">get_food_position</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.get_score" href="#snake_api.SnakeAPI.get_score">get_score</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.get_snake_length" href="#snake_api.SnakeAPI.get_snake_length">get_snake_length</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.get_snake_positions" href="#snake_api.SnakeAPI.get_snake_positions">get_snake_positions</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.get_state" href="#snake_api.SnakeAPI.get_state">get_state</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.is_game_over" href="#snake_api.SnakeAPI.is_game_over">is_game_over</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.move" href="#snake_api.SnakeAPI.move">move</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.reset" href="#snake_api.SnakeAPI.reset">reset</a></code></li>
+<li><code><a title="snake_api.SnakeAPI.set_food_position" href="#snake_api.SnakeAPI.set_food_position">set_food_position</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.6</a>.</p>
+</footer>
+</body>
+</html>

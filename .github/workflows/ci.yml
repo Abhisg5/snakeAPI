@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install C dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck clang-format doxygen
+
+    - name: Run Python checks
+      run: |
+        make lint
+        make format
+        make test
+        make coverage
+
+    - name: Run C checks
+      run: |
+        make c-lint
+        make c-format
+        make c-test
+        make c-coverage
+
+    - name: Generate documentation
+      run: |
+        make docs
+        make c-docs
+
+    - name: Upload Python coverage
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./coverage/
+        fail_ci_if_error: true
+
+    - name: Upload C coverage
+      uses: codecov/codecov-action@v3
+      with:
+        directory: ./build/
+        fail_ci_if_error: true 
